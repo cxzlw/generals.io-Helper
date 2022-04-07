@@ -15,7 +15,22 @@ var isAlive = {
     "blue": false,
     "purple-blue": false
 };
-var cities = [], generals = [];
+var lastGame = {
+    "red": 1,
+    "lightblue": 1,
+    "green": 1,
+    "teal": 1,
+    "orange": 1,
+    "pink": 1,
+    "purple": 1,
+    "maroon": 1,
+    "yellow": 1,
+    "brown": 1,
+    "blue": 1,
+    "purple-blue": 1
+};
+var cities = [];
+var generals = [];
 var gameObserver;
 function startObserve() {
     var observeTarget = document.getElementById("react-container");
@@ -35,23 +50,36 @@ function startObserve() {
 }
 function meow() {
     var leaderboard = document.getElementById("game-leaderboard");
+    var playerInfo = leaderboard.children[0].children;
     gameObserver = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
             if (mutation.type === "characterData")
-                update();
+                rewriteGame();
         });
     });
     for (var _i = 0, GeneralsIOColors_1 = GeneralsIOColors; _i < GeneralsIOColors_1.length; _i++) {
         var color = GeneralsIOColors_1[_i];
-        for (var id = 1; id < leaderboard.children[0].children.length; ++id)
-            if (leaderboard.children[0].children[id].children[1].classList.contains(color))
+        for (var i = 1; i < playerInfo.length; ++i)
+            if (playerInfo[i].children[1].classList.contains(color))
                 isAlive[color] = true;
+    }
+    playerInfo[0].appendChild(document.createElement('td'));
+    playerInfo[0].children[4].textContent = "City";
+    playerInfo[0].appendChild(document.createElement('td'));
+    playerInfo[0].children[5].textContent = "Delta";
+    for (var i = 1, cur = void 0; i < playerInfo.length; ++i) {
+        cur = playerInfo[i].children[1].className.split(' ')[1];
+        lastGame[cur] = 1;
+        playerInfo[i].appendChild(document.createElement('td'));
+        playerInfo[i].children[4].textContent = "1";
+        playerInfo[i].appendChild(document.createElement('td'));
+        playerInfo[i].children[5].textContent = "0";
     }
     gameObserver.observe(leaderboard, { attributes: true, characterData: true, subtree: true });
     cities = [];
     generals = [];
 }
-function update() {
+function rewriteGame() {
     var deads = document.getElementsByClassName("dead");
     for (var _i = 0, deads_1 = deads; _i < deads_1.length; _i++) {
         var dead = deads_1[_i];
@@ -94,6 +122,20 @@ function update() {
                 if (isAlive[color])
                     generals.push({ x: x, y: y, color: color });
             }
+        }
+    }
+    var gameTurns = document.getElementById("turn-counter").textContent;
+    gameTurns = gameTurns.match(/\d+/g)[0];
+    var playerInfo = document.getElementById("game-leaderboard").children[0].children;
+    for (var i = 1, cur = void 0; i < playerInfo.length; ++i) {
+        cur = playerInfo[i].children[1].className.split(' ')[1];
+        var army = Number(playerInfo[i].children[2].textContent);
+        var delta = army - lastGame[cur];
+        if (delta != 0) {
+            if (Number(gameTurns) % 25 != 0 && delta > 0)
+                playerInfo[i].children[4].textContent = delta.toString();
+            playerInfo[i].children[5].textContent = delta.toString();
+            lastGame[cur] = army;
         }
     }
 }

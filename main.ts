@@ -22,8 +22,22 @@ var isAlive = {
   "blue": false,
   "purple-blue": false
 };
-var cities: { x: number, y: number }[] = [],
-  generals: { x: number, y: number, color: string }[] = [];
+var lastGame = {
+  "red": 1,
+  "lightblue": 1,
+  "green": 1,
+  "teal": 1,
+  "orange": 1,
+  "pink": 1,
+  "purple": 1,
+  "maroon": 1,
+  "yellow": 1,
+  "brown": 1,
+  "blue": 1,
+  "purple-blue": 1
+}
+var cities: { x: number, y: number }[] = [];
+var generals: { x: number, y: number, color: string }[] = [];
 var gameObserver: any;
 
 function startObserve() {
@@ -46,23 +60,39 @@ function startObserve() {
 
 function meow() {
   let leaderboard = document.getElementById("game-leaderboard");
+  let playerInfo = leaderboard.children[0].children;
   gameObserver = new MutationObserver(function (mutations) {
     mutations.forEach(function (mutation) {
       if (mutation.type === "characterData")
-        update();
+        rewriteGame();
     });
   });
   for (let color of GeneralsIOColors)
-    for (let id = 1; id < leaderboard.children[0].children.length; ++id)
-      if (leaderboard.children[0].children[id].children[1].classList.contains(color))
+    for (let i = 1; i < playerInfo.length; ++i)
+      if (playerInfo[i].children[1].classList.contains(color))
         isAlive[color] = true;
+
+  playerInfo[0].appendChild(document.createElement('td'));
+  playerInfo[0].children[4].textContent = "City";
+  playerInfo[0].appendChild(document.createElement('td'));
+  playerInfo[0].children[5].textContent = "Delta";
+
+  for (let i = 1, cur: string; i < playerInfo.length; ++i) {
+    cur = playerInfo[i].children[1].className.split(' ')[1];
+    lastGame[cur] = 1;
+    playerInfo[i].appendChild(document.createElement('td'));
+    playerInfo[i].children[4].textContent = "1";
+    playerInfo[i].appendChild(document.createElement('td'));
+    playerInfo[i].children[5].textContent = "0";
+  }
+
   gameObserver.observe(leaderboard, { attributes: true, characterData: true, subtree: true });
 
   cities = [];
   generals = [];
 }
 
-function update() {
+function rewriteGame() {
   let deads = document.getElementsByClassName("dead");
 
   for (let dead of deads)
@@ -77,10 +107,9 @@ function update() {
   for (let general of generals) {
     let pos = gameMap.children[general.x].children[general.y];
     if (!isAlive[general.color]) {
-      pos.classList.remove("general", general.color)
-      cities.push({ x: general.x, y: general.y })
-    }
-    else if (!pos.classList.contains("city") && !pos.classList.contains("general")) {
+      pos.classList.remove("general", general.color);
+      cities.push({ x: general.x, y: general.y });
+    } else if (!pos.classList.contains("city") && !pos.classList.contains("general")) {
       pos.classList.add("general", general.color, "selected");
     }
   }
@@ -106,6 +135,24 @@ function update() {
           generals.push({ x: x, y: y, color: color });
       }
     }
+  }
+
+  let gameTurns = document.getElementById("turn-counter").textContent;
+  gameTurns = gameTurns.match(/\d+/g)[0];
+  
+  let playerInfo = document.getElementById("game-leaderboard").children[0].children;
+  for (let i = 1, cur: string; i < playerInfo.length; ++i) {
+    cur = playerInfo[i].children[1].className.split(' ')[1];
+    let army = Number(playerInfo[i].children[2].textContent);
+    let delta = army - lastGame[cur];
+
+    if (delta != 0) {
+      if (Number(gameTurns) % 25 != 0 && delta > 0)
+        playerInfo[i].children[4].textContent = delta.toString();
+      
+      playerInfo[i].children[5].textContent = delta.toString();
+      lastGame[cur] = army;
+    } 
   }
 }
 
