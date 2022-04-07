@@ -81,7 +81,7 @@ function meow() {
     cur = playerInfo[i].children[1].className.split(' ')[1];
     lastGame[cur] = 1;
     playerInfo[i].appendChild(document.createElement('td'));
-    playerInfo[i].children[4].textContent = "Helper";
+    playerInfo[i].children[4].textContent = "1";
     playerInfo[i].appendChild(document.createElement('td'));
     playerInfo[i].children[5].textContent = "Loading";
   }
