@@ -1,0 +1,13 @@
+{
+	"manifest_version": 3,
+	"name": "A generals.io Game Helper",
+	"version": "1.0.0",
+	"description": "A simple generals.io game helper for chrome.",
+	"content_scripts": 
+	[
+		{
+			"matches": ["https://*.generals.io/*", "http://*.generals.io/*"],
+			"js": ["main.js"]
+		}
+	]
+}

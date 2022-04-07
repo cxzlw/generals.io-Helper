@@ -1,0 +1,3 @@
+## A generals.io Game Helper
+
+Writing...
