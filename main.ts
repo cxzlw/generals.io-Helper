@@ -147,7 +147,8 @@ function rewriteGame() {
     let delta = army - lastGame[cur];
 
     if (delta != 0) {
-      if (Number(gameTurns) % 25 != 0 && delta > 0)
+      if (Number(gameTurns) % 25 != 0 && delta > 0 &&
+        delta - Number(playerInfo[i].children[4].textContent) <= 2)
         playerInfo[i].children[4].textContent = delta.toString();
       
       playerInfo[i].children[5].textContent = delta.toString();
