@@ -78,7 +78,16 @@ function meow(): void {
   playerInfo[0].appendChild(document.createElement('td'));
   playerInfo[0].children[5].textContent = "Delta";
 
-  for (let i = 1, cur: string; i < playerInfo.length; ++i) {
+  for (let i = 1, cur: string, lastPos = -1; i < playerInfo.length; ++i) {
+    if (playerInfo[i].children.length === 3) { // is team name
+      playerInfo[i].children[0].removeAttribute("colspan");
+      playerInfo[i].insertBefore(playerInfo[i].children[0], document.createElement('td'));
+      playerInfo[i].children[0].textContent = "0";
+      lastPos = i;
+    }
+    if (lastPos !== -1)
+      playerInfo[lastPos].children[0].textContent =
+        (Number(playerInfo[lastPos].children[0].textContent) + Number(playerInfo[i].children[0].textContent)).toString();
     cur = playerInfo[i].children[1].className.split(' ')[1];
     lastTurn[cur] = 1;
     playerInfo[i].appendChild(document.createElement('td'));
@@ -159,17 +168,22 @@ function rewriteGame(): void {
   }
 
   for (let i = 1; i < playerInfo.length; ++i) {
+    if (playerInfo[i].children[1].hasAttribute("team-name"))
+      continue;
     if (Number(playerInfo[i].children[5].textContent) > 0) {
       playerInfo[i].children[5].setAttribute("class", "");
       continue;
     }
     let isFighting: boolean = false;
-    for (let j = 1; j < playerInfo.length; ++j)
+    for (let j = 1; j < playerInfo.length; ++j) {
+      if (playerInfo[j].children[1].hasAttribute("team-name"))
+        continue;
       if (i !== j && playerInfo[i].children[5].textContent === playerInfo[j].children[5].textContent) {
         playerInfo[i].children[5].setAttribute("class", playerInfo[j].children[1].getAttribute("class"));
         isFighting = true;
         break;
       }
+    }
     if (!isFighting)
       playerInfo[i].children[5].setAttribute("class", "");
   }
