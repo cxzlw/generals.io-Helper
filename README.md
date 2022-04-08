@@ -43,7 +43,7 @@ Firefox 版本在计划中。
 
 ## 预览图
 
-版本为 1.1.0。
+版本为 1.2.1。
 
 ![](./img/preview1.png)
 ![](./img/preview2.png)
