@@ -81,13 +81,15 @@ function meow(): void {
   for (let i = 1, cur: string, lastPos = -1; i < playerInfo.length; ++i) {
     if (playerInfo[i].children.length === 3) { // is team name
       playerInfo[i].children[0].removeAttribute("colspan");
-      playerInfo[i].insertBefore(playerInfo[i].children[0], document.createElement('td'));
+      playerInfo[i].insertBefore(document.createElement('td'), playerInfo[i].children[0]);
       playerInfo[i].children[0].textContent = "0";
       lastPos = i;
     }
-    if (lastPos !== -1)
+    if (lastPos !== -1 && lastPos !== i) {
+      let curStars = Number(playerInfo[i].children[0].textContent.match(/\d+/g)[0]);
       playerInfo[lastPos].children[0].textContent =
-        (Number(playerInfo[lastPos].children[0].textContent) + Number(playerInfo[i].children[0].textContent)).toString();
+        (Number(playerInfo[lastPos].children[0].textContent) + curStars).toString();
+    }
     cur = playerInfo[i].children[1].className.split(' ')[1];
     lastTurn[cur] = 1;
     playerInfo[i].appendChild(document.createElement('td'));
@@ -154,16 +156,29 @@ function rewriteGame(): void {
   lastTurn.id = gameTurn;
 
   let playerInfo = document.getElementById("game-leaderboard").children[0].children;
-  for (let i = 1, cur: string; i < playerInfo.length; ++i) {
+  for (let i = 1, cur: string, lastPos = -1; i < playerInfo.length; ++i) {
+    if (playerInfo[i].children[1].hasAttribute("team-name")) {
+      lastPos = i;
+      continue;
+    }
+    
     cur = playerInfo[i].children[1].className.split(' ')[1];
     let army = Number(playerInfo[i].children[2].textContent);
     let delta = army - lastTurn[cur];
 
     if (gameTurn % 25 !== 0 && delta > 0 &&
-      delta - Number(playerInfo[i].children[4].textContent) <= 2) // I guess it's impossible to get more than 2 cities in one turn
+      delta - Number(playerInfo[i].children[4].textContent) <= 2)
       playerInfo[i].children[4].textContent = delta.toString();
 
     playerInfo[i].children[5].textContent = delta.toString();
+
+    if (lastPos !== -1) {
+      playerInfo[lastPos].children[4].textContent =
+        (Number(playerInfo[lastPos].children[4].textContent) + Number(playerInfo[i].children[4].textContent)).toString();
+      playerInfo[lastPos].children[5].textContent =
+        (Number(playerInfo[lastPos].children[5].textContent) + Number(playerInfo[i].children[5].textContent)).toString();
+    }
+
     lastTurn[cur] = army;
   }
 
