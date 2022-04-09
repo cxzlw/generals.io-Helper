@@ -90,7 +90,7 @@ function meow() {
         }
     }
     for (let i = 1; i < playerInfo.length; ++i)
-        if (playerInfo[i].children[1].getAttribute("class") === "team-name")
+        if (playerInfo[i].children[1].classList.contains("team-name"))
             playerInfo[i].children[0].textContent = "★ " + playerInfo[i].children[0].textContent;
     mapObserver.observe(turncounter, { attributes: true, characterData: true, subtree: true });
     cities = [];
@@ -98,9 +98,14 @@ function meow() {
 }
 function rewriteGame() {
     let deads = document.getElementsByClassName("dead");
+    let afks = document.getElementsByClassName("afk");
     for (let dead of deads)
         for (let key in isAlive)
             if (dead.children[1].classList.contains(key))
+                isAlive[key] = false;
+    for (let afk of afks)
+        for (let key in isAlive)
+            if (afk.children[1].classList.contains(key))
                 isAlive[key] = false;
     let gameMap = document.getElementById("gameMap").children[0];
     let X = gameMap.children.length;
@@ -144,14 +149,14 @@ function rewriteGame() {
     lastTurn.id = gameTurn;
     let playerInfo = document.getElementById("game-leaderboard").children[0].children;
     for (let i = 1, cur, lastPos = -1; i < playerInfo.length; ++i) {
-        if (playerInfo[i].children[1].getAttribute("class") === "team-name") {
-            playerInfo[lastPos].children[4].textContent = "0";
-            playerInfo[lastPos].children[5].textContent = "0";
+        if (playerInfo[i].children[1].classList.contains("team-name")) {
+            playerInfo[i].children[4].textContent = "0";
+            playerInfo[i].children[5].textContent = "0";
             lastPos = i;
             continue;
         }
         cur = playerInfo[i].children[1].className.split(' ')[1];
-        // if (!isAlive[cur]) break;
+        // if (!isAlive[cur]) continue;
         let army = Number(playerInfo[i].children[2].textContent);
         let delta = army - lastTurn[cur];
         if (gameTurn % 25 !== 0 && delta > 0 &&
@@ -167,18 +172,17 @@ function rewriteGame() {
         }
     }
     for (let i = 1, cur; i < playerInfo.length; ++i) {
-        if (playerInfo[i].children[1].getAttribute("class") === "team-name")
+        if (playerInfo[i].children[1].classList.contains("team-name"))
             continue;
         cur = playerInfo[i].children[1].className.split(' ')[1];
-        if (!isAlive[cur])
-            break;
+        // if (!isAlive[cur]) continue;
         if (Number(playerInfo[i].children[5].textContent) > 0) {
             playerInfo[i].children[5].setAttribute("class", "");
             continue;
         }
         let isFighting = false;
         for (let j = 1; j < playerInfo.length; ++j) {
-            if (playerInfo[i].children[1].getAttribute("class") === "team-name")
+            if (playerInfo[i].children[1].classList.contains("team-name"))
                 continue;
             if (i !== j && playerInfo[i].children[5].textContent === playerInfo[j].children[5].textContent) {
                 playerInfo[i].children[5].setAttribute("class", "leaderboard-name " + cur);

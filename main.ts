@@ -168,14 +168,14 @@ function rewriteGame(): void {
   let playerInfo = document.getElementById("game-leaderboard").children[0].children;
   for (let i = 1, cur: string, lastPos = -1; i < playerInfo.length; ++i) {
     if (playerInfo[i].children[1].classList.contains("team-name")) {
-      playerInfo[lastPos].children[4].textContent = "0";
-      playerInfo[lastPos].children[5].textContent = "0";
+      playerInfo[i].children[4].textContent = "0";
+      playerInfo[i].children[5].textContent = "0";
       lastPos = i;
       continue;
     }
 
     cur = playerInfo[i].children[1].className.split(' ')[1];
-    if (!isAlive[cur]) continue;
+    // if (!isAlive[cur]) continue;
 
     let army = Number(playerInfo[i].children[2].textContent);
     let delta = army - lastTurn[cur];
@@ -200,7 +200,7 @@ function rewriteGame(): void {
       continue;
 
     cur = playerInfo[i].children[1].className.split(' ')[1];
-    if (!isAlive[cur]) continue;
+    // if (!isAlive[cur]) continue;
 
     if (Number(playerInfo[i].children[5].textContent) > 0) {
       playerInfo[i].children[5].setAttribute("class", "");
