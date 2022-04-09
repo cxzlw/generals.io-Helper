@@ -68,7 +68,7 @@ function meow() {
     for (let i = 1, cur, lastPos = -1; i < playerInfo.length; ++i) {
         if (playerInfo[i].children.length === 3) { // is team name
             playerInfo[i].children[0].removeAttribute("colspan");
-            playerInfo[i].insertBefore(document.createElement('td'), playerInfo[i].children[0]);
+            playerInfo[i].insertBefore(document.createElement('td'), playerInfo[i].firstChild);
             playerInfo[i].children[0].textContent = "0";
             playerInfo[i].appendChild(document.createElement('td'));
             playerInfo[i].children[4].textContent = "1";
@@ -89,9 +89,13 @@ function meow() {
                 (Number(playerInfo[lastPos].children[0].textContent) + curStars).toString();
         }
     }
-    for (let i = 1; i < playerInfo.length; ++i)
+    for (let i = 1; i < playerInfo.length; ++i) {
+        let colorful = document.createElement("span");
+        colorful.setAttribute("style", "color: goldenrod");
+        colorful.textContent = "★ ";
         if (playerInfo[i].children[1].classList.contains("team-name"))
-            playerInfo[i].children[0].textContent = "★ " + playerInfo[i].children[0].textContent;
+            playerInfo[i].children[0].insertBefore(colorful, playerInfo[i].children[0].firstChild);
+    }
     mapObserver.observe(turncounter, { attributes: true, characterData: true, subtree: true });
     cities = [];
     generals = [];
@@ -156,7 +160,8 @@ function rewriteGame() {
             continue;
         }
         cur = playerInfo[i].children[1].className.split(' ')[1];
-        // if (!isAlive[cur]) continue;
+        if (!isAlive[cur])
+            continue;
         let army = Number(playerInfo[i].children[2].textContent);
         let delta = army - lastTurn[cur];
         if (gameTurn % 25 !== 0 && delta > 0 &&
@@ -175,7 +180,8 @@ function rewriteGame() {
         if (playerInfo[i].children[1].classList.contains("team-name"))
             continue;
         cur = playerInfo[i].children[1].className.split(' ')[1];
-        // if (!isAlive[cur]) continue;
+        if (!isAlive[cur])
+            continue;
         if (Number(playerInfo[i].children[5].textContent) > 0) {
             playerInfo[i].children[5].setAttribute("class", "");
             continue;
