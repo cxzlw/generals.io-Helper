@@ -111,7 +111,7 @@ function rewriteGame(): void {
 }
 
 function getColor(pos: any): string {
-  for (let color of GeneralsIOColors)
+  for (let color of generalsioColors)
     if (pos.classList.contains(color))
       return color;
   return "meow";

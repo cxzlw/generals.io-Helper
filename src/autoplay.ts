@@ -9,10 +9,11 @@ function BFS(): void {
   let Y = gameMap.children[0].children.length;
 
   function tryMove(from: Element, to: Element): void {
-    if (to.classList.length === 1 && to.classList.contains("tiny"))
+    if (to.classList.length == 1 && to.classList.contains("tiny") ||
+        to.classList.length == 2 && to.classList.contains("tiny") && to.classList.contains("attackable"))
       moveNeighbor(from, to);
   };
-  
+
   for (let x = 0; x < X; ++x) {
     for (let y = 0; y < Y; ++y) {
       let pos = gameMap.children[x].children[y];

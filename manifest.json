@@ -1,7 +1,7 @@
 {
 	"manifest_version": 3,
 	"name": "A generals.io Game Helper",
-	"version": "1.2.3",
+	"version": "1.3.0",
 	"description": "A generals.io game helper.",
   "icons": {
     "48": "./img/48.png",
@@ -11,7 +11,7 @@
 	[
 		{
 			"matches": ["https://*.generals.io/*", "http://*.generals.io/*"],
-			"js": ["main.js"]
+			"js": ["./js/main.js", "./js/rewriter.js", "./js/events.js", "./js/autoplay.js"]
 		}
 	]
 }

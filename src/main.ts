@@ -5,7 +5,7 @@
  * GitHub Repo: https://github.com/AstralLing/generals.io-Helper
  */
 
-const GeneralsIOColors = ["red", "lightblue", "green", "teal", "orange", "pink", "purple", "maroon", "yellow", "brown", "blue", "purple-blue"];
+const generalsioColors = ["red", "lightblue", "green", "teal", "orange", "pink", "purple", "maroon", "yellow", "brown", "blue", "purple-blue"];
 
 var isAlive = {
   "red": false,
@@ -69,6 +69,8 @@ function meow(): void {
     });
   });
 
+  /* Leaderboard */
+
   playerInfo[0].appendChild(document.createElement('td'));
   playerInfo[0].children[4].textContent = "City";
   playerInfo[0].appendChild(document.createElement('td'));
@@ -108,7 +110,36 @@ function meow(): void {
       playerInfo[i].children[0].insertBefore(colorful, playerInfo[i].children[0].firstChild);
   }
 
+  /* Get my color */
+  let gameMap = document.getElementById("gameMap").children[0];
+  let X = gameMap.children.length;
+  let Y = gameMap.children[0].children.length;
+  for (let x = 0, flag = false; x < X; ++x) {
+    for (let y = 0; y < Y; ++y) {
+      let pos = gameMap.children[x].children[y];
+      if (pos.classList.contains("selectable"))
+        for (let color of generalsioColors)
+          if (pos.classList.contains(color)) {
+            myColor = color;
+            flag = true;
+            break;
+          }
+      if (flag)
+        break;
+    }
+    if (flag)
+      break;
+  }
+
+  /* Start */
+
   turnObserver.observe(turncounter, { attributes: true, characterData: true, subtree: true });
+
+  document.onkeydown = function (event) {
+    var e = event || window.event || arguments.callee.caller.arguments[0];
+    if (e && e.keyCode == 66) // B
+      BFS();
+  }
 
   cities = [];
   generals = [];
