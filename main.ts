@@ -38,7 +38,7 @@ var lastTurn = {
 }
 var cities: { x: number, y: number }[] = [];
 var generals: { x: number, y: number, color: string }[] = [];
-var mapObserver: MutationObserver, turnObserver: MutationObserver;
+var turnObserver: MutationObserver;
 
 function startObserve(): void {
   let observeTarget = document.getElementById("react-container");
@@ -50,7 +50,7 @@ function startObserve(): void {
       });
       mutation.removedNodes.forEach(function (removed: any) {
         if (removed.id === "game-page")
-          mapObserver.disconnect();
+          turnObserver.disconnect();
       });
     });
   });
@@ -61,7 +61,7 @@ function startObserve(): void {
 function meow(): void {
   let turncounter = document.getElementById("turn-counter");
   let playerInfo = document.getElementById("game-leaderboard").children[0].children;
-  mapObserver = new MutationObserver(function (mutations) {
+  turnObserver = new MutationObserver(function (mutations) {
     mutations.forEach(function (mutation) {
       if (mutation.type === "characterData")
         rewriteGame();
@@ -107,7 +107,7 @@ function meow(): void {
       playerInfo[i].children[0].insertBefore(colorful, playerInfo[i].children[0].firstChild);
   }
 
-  mapObserver.observe(turncounter, { attributes: true, characterData: true, subtree: true });
+  turnObserver.observe(turncounter, { attributes: true, characterData: true, subtree: true });
 
   cities = [];
   generals = [];
