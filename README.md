@@ -38,7 +38,7 @@
 
 ### 对于 Firefox
 
-> Firefox 尚未支持 manifest v3，且因未知原因对 menifest v2 同样报错。这只是一个临时解决方案，它看起来可以勉强正常运行。
+> Firefox 尚未支持 manifest v3，且因未知原因对 manifest v2 同样报错。这只是一个临时解决方案，它看起来可以勉强正常运行。
 
 - 在 release 中下载标有 `-firefox` 的压缩包
 - 进入浏览器扩展管理界面
