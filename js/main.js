@@ -120,7 +120,7 @@ function meow() {
     }
     /* Start */
     turnObserver.observe(turncounter, { attributes: true, characterData: true, subtree: true });
-    document.onkeydown = function (event) {
+    document.onkeyup = function (event) {
         var e = event || window.event || arguments.callee.caller.arguments[0];
         if (e && e.keyCode == 66) // B
             BFS();
