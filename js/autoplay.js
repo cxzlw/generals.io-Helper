@@ -15,7 +15,7 @@ function BFS() {
     for (let x = 0; x < X; ++x) {
         for (let y = 0; y < Y; ++y) {
             let pos = gameMap.children[x].children[y];
-            if (pos.classList.contains(myColor)) {
+            if (pos.classList.contains(myColor) && Number(pos.textContent) > 1) {
                 if (x > 0)
                     tryMove(pos, gameMap.children[x - 1].children[y]);
                 if (x < X - 1)
