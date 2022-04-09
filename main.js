@@ -61,10 +61,6 @@ function meow() {
                 rewriteGame();
         });
     });
-    for (let color of GeneralsIOColors)
-        for (let i = 1; i < playerInfo.length; ++i)
-            if (playerInfo[i].children[1].classList.contains(color))
-                isAlive[color] = true;
     playerInfo[0].appendChild(document.createElement('td'));
     playerInfo[0].children[4].textContent = "City";
     playerInfo[0].appendChild(document.createElement('td'));
@@ -74,20 +70,28 @@ function meow() {
             playerInfo[i].children[0].removeAttribute("colspan");
             playerInfo[i].insertBefore(document.createElement('td'), playerInfo[i].children[0]);
             playerInfo[i].children[0].textContent = "0";
+            playerInfo[i].appendChild(document.createElement('td'));
+            playerInfo[i].children[4].textContent = "1";
+            playerInfo[i].appendChild(document.createElement('td'));
+            playerInfo[i].children[5].textContent = "Loading";
             lastPos = i;
-        }
-        if (lastPos !== -1 && lastPos !== i) {
-            let curStars = Number(playerInfo[i].children[0].textContent.match(/\d+/g)[0]);
-            playerInfo[lastPos].children[0].textContent =
-                (Number(playerInfo[lastPos].children[0].textContent) + curStars).toString();
+            continue;
         }
         cur = playerInfo[i].children[1].className.split(' ')[1];
-        lastTurn[cur] = 1;
         playerInfo[i].appendChild(document.createElement('td'));
         playerInfo[i].children[4].textContent = "1";
         playerInfo[i].appendChild(document.createElement('td'));
         playerInfo[i].children[5].textContent = "Loading";
+        lastTurn[cur] = 1, isAlive[cur] = true;
+        if (lastPos !== -1) {
+            let curStars = Number(playerInfo[i].children[0].textContent.match(/\d+/g)[0]);
+            playerInfo[lastPos].children[0].textContent =
+                (Number(playerInfo[lastPos].children[0].textContent) + curStars).toString();
+        }
     }
+    for (let i = 1; i < playerInfo.length; ++i)
+        if (playerInfo[i].children[1].getAttribute("class") === "team-name")
+            playerInfo[i].children[0].textContent = "★ " + playerInfo[i].children[0].textContent;
     mapObserver.observe(turncounter, { attributes: true, characterData: true, subtree: true });
     cities = [];
     generals = [];
@@ -96,7 +100,7 @@ function rewriteGame() {
     let deads = document.getElementsByClassName("dead");
     for (let dead of deads)
         for (let key in isAlive)
-            if (dead.children[1].classList.contains(isAlive[key]))
+            if (dead.children[1].classList.contains(key))
                 isAlive[key] = false;
     let gameMap = document.getElementById("gameMap").children[0];
     let X = gameMap.children.length;
@@ -140,38 +144,44 @@ function rewriteGame() {
     lastTurn.id = gameTurn;
     let playerInfo = document.getElementById("game-leaderboard").children[0].children;
     for (let i = 1, cur, lastPos = -1; i < playerInfo.length; ++i) {
-        if (playerInfo[i].children[1].hasAttribute("team-name")) {
+        if (playerInfo[i].children[1].getAttribute("class") === "team-name") {
+            playerInfo[lastPos].children[4].textContent = "0";
+            playerInfo[lastPos].children[5].textContent = "0";
             lastPos = i;
             continue;
         }
         cur = playerInfo[i].children[1].className.split(' ')[1];
+        // if (!isAlive[cur]) break;
         let army = Number(playerInfo[i].children[2].textContent);
         let delta = army - lastTurn[cur];
         if (gameTurn % 25 !== 0 && delta > 0 &&
             delta - Number(playerInfo[i].children[4].textContent) <= 2)
             playerInfo[i].children[4].textContent = delta.toString();
         playerInfo[i].children[5].textContent = delta.toString();
+        lastTurn[cur] = army;
         if (lastPos !== -1) {
             playerInfo[lastPos].children[4].textContent =
                 (Number(playerInfo[lastPos].children[4].textContent) + Number(playerInfo[i].children[4].textContent)).toString();
             playerInfo[lastPos].children[5].textContent =
                 (Number(playerInfo[lastPos].children[5].textContent) + Number(playerInfo[i].children[5].textContent)).toString();
         }
-        lastTurn[cur] = army;
     }
-    for (let i = 1; i < playerInfo.length; ++i) {
-        if (playerInfo[i].children[1].hasAttribute("team-name"))
+    for (let i = 1, cur; i < playerInfo.length; ++i) {
+        if (playerInfo[i].children[1].getAttribute("class") === "team-name")
             continue;
+        cur = playerInfo[i].children[1].className.split(' ')[1];
+        if (!isAlive[cur])
+            break;
         if (Number(playerInfo[i].children[5].textContent) > 0) {
             playerInfo[i].children[5].setAttribute("class", "");
             continue;
         }
         let isFighting = false;
         for (let j = 1; j < playerInfo.length; ++j) {
-            if (playerInfo[j].children[1].hasAttribute("team-name"))
+            if (playerInfo[i].children[1].getAttribute("class") === "team-name")
                 continue;
             if (i !== j && playerInfo[i].children[5].textContent === playerInfo[j].children[5].textContent) {
-                playerInfo[i].children[5].setAttribute("class", playerInfo[j].children[1].getAttribute("class"));
+                playerInfo[i].children[5].setAttribute("class", "leaderboard-name " + cur);
                 isFighting = true;
                 break;
             }
