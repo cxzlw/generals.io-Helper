@@ -62,5 +62,6 @@
 
 版本为 1.2.1。
 
-![](./img/preview1.png)
-![](./img/preview2.png)
+![Calc](./img/preview1.png)
+![Layout](./img/preview2.png)
+![Auto BFS](./img/preview3.png)

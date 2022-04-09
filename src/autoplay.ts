@@ -13,7 +13,6 @@ function BFS(): void {
         to.classList.length == 2 && to.classList.contains("tiny") && to.classList.contains("attackable"))
       moveNeighbor(from, to);
   };
-
   for (let x = 0; x < X; ++x) {
     for (let y = 0; y < Y; ++y) {
       let pos = gameMap.children[x].children[y];
