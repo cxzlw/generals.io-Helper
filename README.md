@@ -60,7 +60,7 @@
 
 ## 预览图
 
-版本为 1.2.1。
+版本为 1.3.0。
 
 ![Calc](./img/preview1.png)
 ![Layout](./img/preview2.png)
