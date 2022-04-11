@@ -11,7 +11,7 @@
 	[
 		{
 			"matches": ["https://*.generals.io/*", "http://*.generals.io/*"],
-			"js": ["./js/main.js", "./js/rewriter.js", "./js/events.js", "./js/autoplay.js"]
+			"js": ["./js/main.js", "./js/rewriter.js", "./js/algorithm.js", "./js/autoplay.js"]
 		}
 	]
 }

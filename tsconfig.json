@@ -2,7 +2,7 @@
   "files": [
     "./src/main.ts",
     "./src/rewriter.ts",
-    "./src/events.ts",
+    "./src/algorithm.ts",
     "./src/autoplay.ts"
   ],
   "compilerOptions": {
