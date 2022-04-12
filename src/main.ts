@@ -19,7 +19,7 @@ var isAlive = {
   "yellow": false,
   "brown": false,
   "blue": false,
-  "purple-blue": false
+  "purpleblue": false
 };
 var lastTurn = {
   "red": 1,
@@ -33,7 +33,7 @@ var lastTurn = {
   "yellow": 1,
   "brown": 1,
   "blue": 1,
-  "purple-blue": 1,
+  "purpleblue": 1,
   "id": 0
 }
 var cities: { x: number, y: number }[] = [];
@@ -136,7 +136,7 @@ function meow(): void {
   document.onkeyup = function (event) {
     var e = event || window.event || arguments.callee.caller.arguments[0];
     if (e && e.keyCode == 66) // B
-      BFS();
+      expandArea();
   }
 
   turnObserver.observe(turncounter, { attributes: true, characterData: true, subtree: true });

@@ -3,7 +3,7 @@ function moveNeighbor(from: Element, to: Element): void {
   simulateClick(to);
 }
 
-function BFS(): void {
+function expandArea(): void {
   let gameMap = document.getElementById("gameMap").children[0];
   let X = gameMap.children.length;
   let Y = gameMap.children[0].children.length;
