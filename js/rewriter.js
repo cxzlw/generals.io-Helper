@@ -89,7 +89,7 @@ function rewriteGame() {
       if (playerInfo[i].children[1].classList.contains("team-name"))
         continue;
       if (i !== j && playerInfo[i].children[5].textContent === playerInfo[j].children[5].textContent) {
-        playerInfo[i].children[5].setAttribute("class", "leaderboard-name " + cur);
+        playerInfo[j].children[5].setAttribute("class", "leaderboard-name " + cur);
         isFighting = true;
         break;
       }
