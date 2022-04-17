@@ -40,6 +40,7 @@ var cities: { x: number, y: number }[] = [];
 var generals: { x: number, y: number, color: string }[] = [];
 var turnObserver: MutationObserver;
 var myColor: string;
+var isTeamMode = false;
 
 function startObserve(): void {
   let observeTarget = document.getElementById("react-container");
@@ -78,6 +79,7 @@ function meow(): void {
 
   for (let i = 1, cur: string, lastPos = -1; i < playerInfo.length; ++i) {
     if (playerInfo[i].children.length === 3) { // is team name
+      isTeamMode = true;
       playerInfo[i].children[0].removeAttribute("colspan");
       playerInfo[i].insertBefore(document.createElement('td'), playerInfo[i].firstChild);
       playerInfo[i].children[0].textContent = "0";

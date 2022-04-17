@@ -63,7 +63,7 @@ function rewriteGame() {
     let army = Number(playerInfo[i].children[2].textContent);
     let delta = army - lastTurn[cur];
     if (gameTurn % 25 !== 0 && delta > 0 &&
-      delta - Number(playerInfo[i].children[4].textContent) <= 2)
+      (isTeamMode || delta - Number(playerInfo[i].children[4].textContent) <= 2))
       playerInfo[i].children[4].textContent = delta.toString();
     playerInfo[i].children[5].textContent = delta.toString();
     lastTurn[cur] = army;
@@ -88,7 +88,7 @@ function rewriteGame() {
     for (let j = 1; j < playerInfo.length; ++j) {
       if (playerInfo[i].children[1].classList.contains("team-name"))
         continue;
-      if (i !== j && playerInfo[i].children[5].textContent === playerInfo[j].children[5].textContent) {
+      if (i !== j && getAttacked(playerInfo[i].children) == getAttacked(playerInfo[j].children)) {
         playerInfo[j].children[5].setAttribute("class", "leaderboard-name " + cur);
         isFighting = true;
         break;
@@ -97,6 +97,11 @@ function rewriteGame() {
     if (!isFighting)
       playerInfo[i].children[5].setAttribute("class", "");
   }
+}
+function getAttacked(pos) {
+  let delta = Number(pos[5].textContent);
+  let cities = Number(pos[4].textContent);
+  return delta - cities;
 }
 function getColor(pos) {
   for (let color of generalsioColors)

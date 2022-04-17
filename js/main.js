@@ -37,6 +37,7 @@ var cities = [];
 var generals = [];
 var turnObserver;
 var myColor;
+var isTeamMode = false;
 function startObserve() {
   let observeTarget = document.getElementById("react-container");
   let observer = new MutationObserver(function (mutations) {
@@ -69,6 +70,7 @@ function meow() {
   playerInfo[0].children[5].textContent = "Delta";
   for (let i = 1, cur, lastPos = -1; i < playerInfo.length; ++i) {
     if (playerInfo[i].children.length === 3) { // is team name
+      isTeamMode = true;
       playerInfo[i].children[0].removeAttribute("colspan");
       playerInfo[i].insertBefore(document.createElement('td'), playerInfo[i].firstChild);
       playerInfo[i].children[0].textContent = "0";

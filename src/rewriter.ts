@@ -70,7 +70,7 @@ function rewriteGame(): void {
     let delta = army - lastTurn[cur];
 
     if (gameTurn % 25 !== 0 && delta > 0 &&
-      delta - Number(playerInfo[i].children[4].textContent) <= 2)
+      (isTeamMode || delta - Number(playerInfo[i].children[4].textContent) <= 2))
       playerInfo[i].children[4].textContent = delta.toString();
 
     playerInfo[i].children[5].textContent = delta.toString();
@@ -95,11 +95,11 @@ function rewriteGame(): void {
       playerInfo[i].children[5].setAttribute("class", "");
       continue;
     }
-    let isFighting: boolean = false;
+    let isFighting = false;
     for (let j = 1; j < playerInfo.length; ++j) {
       if (playerInfo[i].children[1].classList.contains("team-name"))
         continue;
-      if (i !== j && playerInfo[i].children[5].textContent === playerInfo[j].children[5].textContent) {
+      if (i !== j && getAttacked(playerInfo[i].children) == getAttacked(playerInfo[j].children)) {
         playerInfo[j].children[5].setAttribute("class", "leaderboard-name " + cur);
         isFighting = true;
         break;
@@ -108,6 +108,12 @@ function rewriteGame(): void {
     if (!isFighting)
       playerInfo[i].children[5].setAttribute("class", "");
   }
+}
+
+function getAttacked(pos: HTMLCollection) : number {
+  let delta = Number(pos[5].textContent);
+  let cities = Number(pos[4].textContent);
+  return delta - cities;
 }
 
 function getColor(pos: any): string {
