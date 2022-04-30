@@ -7,6 +7,7 @@
 
 const generalsioColors = ["red", "lightblue", "green", "teal", "orange", "pink", "purple", "maroon", "yellow", "brown", "blue", "purple-blue"];
 
+// 颜色是否存活
 var isAlive = {
   "red": false,
   "lightblue": false,
@@ -21,6 +22,7 @@ var isAlive = {
   "blue": false,
   "purpleblue": false
 };
+// 上回合情况
 var lastTurn = {
   "red": 1,
   "lightblue": 1,
@@ -70,8 +72,7 @@ function meow(): void {
     });
   });
 
-  /* Leaderboard */
-
+  // 初始化计分板
   playerInfo[0].appendChild(document.createElement('td'));
   playerInfo[0].children[4].textContent = "City";
   playerInfo[0].appendChild(document.createElement('td'));
@@ -87,7 +88,7 @@ function meow(): void {
       playerInfo[i].children[4].textContent = "1";
       playerInfo[i].appendChild(document.createElement('td'));
       playerInfo[i].children[5].textContent = "Loading";
-      lastPos = i;
+      lastPos = i; // lastPos 记录当前队伍表示队名的行编号
       continue;
     }
     cur = playerInfo[i].children[1].className.split(' ')[1];
@@ -104,6 +105,7 @@ function meow(): void {
     }
   }
 
+  // 显示队伍星数
   for (let i = 1; i < playerInfo.length; ++i) {
     let colorful = document.createElement("span");
     colorful.setAttribute("style", "color: goldenrod");
@@ -112,7 +114,7 @@ function meow(): void {
       playerInfo[i].children[0].insertBefore(colorful, playerInfo[i].children[0].firstChild);
   }
 
-  /* Get my color */
+  // 获取自身颜色
   let gameMap = document.getElementById("gameMap").children[0];
   let X = gameMap.children.length;
   let Y = gameMap.children[0].children.length;
@@ -133,8 +135,7 @@ function meow(): void {
       break;
   }
 
-  /* Start */
-
+  // 开始游戏
   document.onkeyup = function (event) {
     if (document.activeElement.id == "chatroom-input") return false;
     var e = event || window.event || arguments.callee.caller.arguments[0];

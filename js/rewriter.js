@@ -1,6 +1,7 @@
 function rewriteGame() {
   let deads = document.getElementsByClassName("dead");
   let afks = document.getElementsByClassName("afk");
+  // 处理死亡和离开了的颜色
   for (let dead of deads)
     for (let key in isAlive)
       if (dead.children[1].classList.contains(key))
@@ -9,6 +10,7 @@ function rewriteGame() {
     for (let key in isAlive)
       if (afk.children[1].classList.contains(key))
         isAlive[key] = false;
+  // 寻找地图中的城市和皇冠，重写地图
   let gameMap = document.getElementById("gameMap").children[0];
   let X = gameMap.children.length;
   let Y = gameMap.children[0].children.length;
@@ -44,31 +46,36 @@ function rewriteGame() {
       }
     }
   }
+  // 从计分板获取信息，重写计分板
   let turncounter = document.getElementById("turn-counter").textContent;
   let gameTurn = Number(turncounter.match(/\d+/g)[0]);
   if (gameTurn === lastTurn.id)
-    return;
-  lastTurn.id = gameTurn;
+    return; // generals 每“回合”可以进行两次移动，却只增加一次兵力，这里保证每回合更新一次信息避免 delta 一直为 0
+  lastTurn.id = gameTurn; // 但这样处理似乎不一定是最优方案？
   let playerInfo = document.getElementById("game-leaderboard").children[0].children;
   for (let i = 1, cur, lastPos = -1; i < playerInfo.length; ++i) {
     if (playerInfo[i].children[1].classList.contains("team-name")) {
       playerInfo[i].children[4].textContent = "0";
       playerInfo[i].children[5].textContent = "0";
-      lastPos = i;
+      lastPos = i; // lastPos 记录当前队伍表示队名的行编号
       continue;
     }
     cur = playerInfo[i].children[1].className.split(' ')[1];
     if (!isAlive[cur]) {
-      playerInfo[i].children[4].textContent = "0"; // 如果死去的玩家数据不再变化，就不会成为0，会影响推断作战玩家
-      playerInfo[i].children[5].textContent = "0"; // 故将这两个数设为0
+      playerInfo[i].children[4].textContent = "0"; // 如果死去的玩家数据不再变化，就不会成为 0，会影响推断作战玩家
+      playerInfo[i].children[5].textContent = "0"; // 故将这两个数设为 0
       continue;
     }
     let army = Number(playerInfo[i].children[2].textContent);
     let delta = army - lastTurn[cur];
+    // 城市数量推断方案有待优化，当前存在的问题有且不止有：
+    //   双方交战时，delta 可能仍然大于零，却造成城市数量显示异常减少，如果交战时一方 delta < 0，一方 delta > 0，这又会影响到对交战情况的推断
+    //   组队模式下，队友兵力的汇入会导致城市数量显示异常增加。
     if (gameTurn % 25 !== 0 && delta > 0)
       playerInfo[i].children[4].textContent = delta.toString();
     playerInfo[i].children[5].textContent = delta.toString();
     lastTurn[cur] = army;
+    // 处理队伍数据
     if (lastPos !== -1) {
       playerInfo[lastPos].children[4].textContent =
         (Number(playerInfo[lastPos].children[4].textContent) + Number(playerInfo[i].children[4].textContent)).toString();
@@ -76,6 +83,7 @@ function rewriteGame() {
         (Number(playerInfo[lastPos].children[5].textContent) + Number(playerInfo[i].children[5].textContent)).toString();
     }
   }
+  // 推断作战情况，当前方案比较粗糙
   for (let i = 1, cur; i < playerInfo.length; ++i) {
     if (playerInfo[i].children[1].classList.contains("team-name"))
       continue;
@@ -100,11 +108,13 @@ function rewriteGame() {
       playerInfo[i].children[5].setAttribute("class", "");
   }
 }
+// 返回一个颜色本回合被其他颜色攻击的损耗（此判断方法有待改进）
 function getAttacked(pos) {
   let delta = Number(pos[5].textContent);
   let cities = Number(pos[4].textContent);
   return delta - cities;
 }
+// 返回一个格子的颜色
 function getColor(pos) {
   for (let color of generalsioColors)
     if (pos.classList.contains(color))
