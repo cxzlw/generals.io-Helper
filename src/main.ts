@@ -50,7 +50,7 @@ function startObserve(): void {
     mutations.forEach(function (mutation) {
       mutation.addedNodes.forEach(function (added: any) {
         if (added.id === "game-page")
-          setTimeout(meow, 100);
+          setTimeout(meow, 233);
       });
       mutation.removedNodes.forEach(function (removed: any) {
         if (removed.id === "game-page")

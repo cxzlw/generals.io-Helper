@@ -53,6 +53,7 @@ function rewriteGame(): void {
   // 从计分板获取信息，重写计分板
   let turncounter = document.getElementById("turn-counter").textContent;
   let gameTurn = Number(turncounter.match(/\d+/g)[0]);
+  let confusingDiff = [];
   
   if (gameTurn === lastTurn.id) return; // generals 每“回合”可以进行两次移动，却只增加一次兵力，这里保证每回合更新一次信息避免 delta 一直为 0
   lastTurn.id = gameTurn;               // 但这样处理似乎不一定是最优方案？
@@ -79,7 +80,9 @@ function rewriteGame(): void {
     // 城市数量推断方案有待优化，当前存在的问题有且不止有：
     //   双方交战时，delta 可能仍然大于零，却造成城市数量显示异常减少，如果交战时一方 delta < 0，一方 delta > 0，这又会影响到对交战情况的推断
     //   组队模式下，队友兵力的汇入会导致城市数量显示异常增加。
-    if (gameTurn % 25 !== 0 && delta > 0)
+    // confusingDiff: 理论量和获知量的差异，一定程度缓解推断出错的问题，每 11 回合无视此限制强制更新一次
+    confusingDiff[cur] = delta - Number(playerInfo[i].children[4].textContent);
+    if (gameTurn % 25 !== 0 && delta > 0 && (confusingDiff[cur] >= -2 || gameTurn % 11 === 0))
       playerInfo[i].children[4].textContent = delta.toString();
 
     playerInfo[i].children[5].textContent = delta.toString();
@@ -102,15 +105,17 @@ function rewriteGame(): void {
     cur = playerInfo[i].children[1].className.split(' ')[1];
     if (!isAlive[cur]) continue;
 
-    if (Number(playerInfo[i].children[5].textContent) > 0) {
+    if (confusingDiff[cur] >= 0) { // 兵力正常增长，一般情况下不应当在作战
       playerInfo[i].children[5].setAttribute("class", "");
       continue;
     }
     let isFighting = false;
-    for (let j = 1; j < playerInfo.length; ++j) {
+    for (let j = 1, curcur: string; j < playerInfo.length; ++j) {
       if (playerInfo[i].children[1].classList.contains("team-name"))
         continue;
-      if (i !== j && getAttacked(playerInfo[i].children) == getAttacked(playerInfo[j].children)) {
+      
+      curcur = playerInfo[j].children[1].className.split(' ')[1];
+      if (i !== j && confusingDiff[cur] == confusingDiff[curcur]) {
         playerInfo[j].children[5].setAttribute("class", "leaderboard-name " + cur);
         isFighting = true;
         break;
@@ -121,12 +126,12 @@ function rewriteGame(): void {
   }
 }
 
-// 返回一个颜色本回合被其他颜色攻击的损耗（此判断方法有待改进）
-function getAttacked(pos: HTMLCollection) : number {
-  let delta = Number(pos[5].textContent);
-  let cities = Number(pos[4].textContent);
-  return delta - cities;
-}
+// // 返回一个颜色本回合被其他颜色攻击的损耗（此判断方法有待改进）
+// function confusingDiff(pos: HTMLCollection) : number {
+//   let delta = Number(pos[5].textContent);
+//   let cities = Number(pos[4].textContent);
+//   return delta - cities;
+// }
 
 // 返回一个格子的颜色
 function getColor(pos: any): string {
