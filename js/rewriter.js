@@ -81,9 +81,8 @@ function rewriteGame() {
         if (playerInfo[i].children[1].classList.contains("team-name"))
             continue;
         cur = playerInfo[i].children[1].className.split(' ')[1];
-        // if (!isAlive[cur]) continue;
-        // 不要跳过死去的玩家，不然会出现攻击状态一直有一个颜色的情况
-        // 我们已经把数据做成正常的了
+        if (!isAlive[cur])
+            continue;
         if (Number(playerInfo[i].children[5].textContent) > 0) {
             playerInfo[i].children[5].setAttribute("class", "");
             continue;
