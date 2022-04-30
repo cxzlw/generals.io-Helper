@@ -73,8 +73,7 @@ function rewriteGame(): void {
     let army = Number(playerInfo[i].children[2].textContent);
     let delta = army - lastTurn[cur];
 
-    if (gameTurn % 25 !== 0 && delta > 0 &&
-      (isTeamMode || delta - Number(playerInfo[i].children[4].textContent) <= 2))
+    if (gameTurn % 25 !== 0 && delta > 0)
       playerInfo[i].children[4].textContent = delta.toString();
 
     playerInfo[i].children[5].textContent = delta.toString();
