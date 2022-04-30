@@ -58,8 +58,11 @@ function rewriteGame() {
             continue;
         }
         cur = playerInfo[i].children[1].className.split(' ')[1];
-        if (!isAlive[cur])
+        if (!isAlive[cur]) {
+            playerInfo[i].children[4].textContent = "0"; // 如果死去的玩家数据不再变化，就不会成为0，会影响推断作战玩家
+            playerInfo[i].children[5].textContent = "0"; // 故将这两个数设为0
             continue;
+        }
         let army = Number(playerInfo[i].children[2].textContent);
         let delta = army - lastTurn[cur];
         if (gameTurn % 25 !== 0 && delta > 0 &&
