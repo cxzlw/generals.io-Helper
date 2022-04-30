@@ -62,7 +62,7 @@ function startObserve(): void {
 
 function meow(): void {
   let turncounter = document.getElementById("turn-counter");
-  let playerInfo = document.getElementById("game-leaderboard").children[0].children;
+    let playerInfo = document.getElementById("game-leaderboard").children[0].children;
   turnObserver = new MutationObserver(function (mutations) {
     mutations.forEach(function (mutation) {
       if (mutation.type === "characterData")
@@ -136,6 +136,7 @@ function meow(): void {
   /* Start */
 
   document.onkeyup = function (event) {
+    if (document.activeElement.id == "chatroom-input") return false;
     var e = event || window.event || arguments.callee.caller.arguments[0];
     if (e && e.keyCode == 66) // B
       expandArea();
