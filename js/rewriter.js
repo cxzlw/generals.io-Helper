@@ -99,7 +99,7 @@ function rewriteGame() {
     }
     let isFighting = false;
     for (let j = 1, curcur; j < playerInfo.length; ++j) {
-      if (playerInfo[i].children[1].classList.contains("team-name"))
+      if (playerInfo[j].children[1].classList.contains("team-name"))
         continue;
       curcur = playerInfo[j].children[1].className.split(' ')[1];
       if (i !== j && confusingDiff[cur] == confusingDiff[curcur]) {

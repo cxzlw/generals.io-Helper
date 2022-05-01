@@ -111,8 +111,6 @@ function rewriteGame(): void {
     }
     let isFighting = false;
     for (let j = 1, curcur: string; j < playerInfo.length; ++j) {
-      // 此处从playerInfo[i]改为playerInfo[j]
-      // 不然不仅会给队伍标记作战情况，还会影响isFighting值，并break
       if (playerInfo[j].children[1].classList.contains("team-name"))
         continue;
 
