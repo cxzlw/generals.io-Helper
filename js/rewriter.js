@@ -74,7 +74,7 @@ function rewriteGame() {
     //   组队模式下，队友兵力的汇入会导致城市数量显示异常增加。
     // confusingDiff: 理论量和获知量的差异，一定程度缓解推断出错的问题，每 11 回合无视此限制强制更新一次
     confusingDiff[cur] = delta - Number(playerInfo[i].children[4].textContent);
-    if (gameTurn % 25 !== 0 && delta > 0 && (confusingDiff[cur] >= -2 || gameTurn % 11 === 0))
+    if (gameTurn % 25 !== 0 && delta > 0 && ((confusingDiff[cur] >= -2 && confusingDiff[cur] <= 2) || gameTurn % 11 === 0))
       playerInfo[i].children[4].textContent = delta.toString();
     playerInfo[i].children[5].textContent = delta.toString();
     lastTurn[cur] = army;
