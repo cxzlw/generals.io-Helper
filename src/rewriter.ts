@@ -58,7 +58,7 @@ function rewriteGame(): void {
   let confusingDiff = [];
 
   if (gameTurn === lastTurn.id) return; // generals 每“回合”可以进行两次移动，却只增加一次兵力，这里保证每回合更新一次信息避免 delta 一直为 0
-  lastTurn.id = gameTurn;              
+  lastTurn.id = gameTurn;
 
   let playerInfo = document.getElementById("game-leaderboard").children[0].children;
   lboardCol = playerInfo[0].childElementCount;
@@ -80,7 +80,7 @@ function rewriteGame(): void {
     let army = Number(playerInfo[i].children[lboardCol - 4].textContent);
     let delta = army - lastTurn[cur];
 
-    /** 
+    /**
      * 城市数量推断方案有待优化，当前存在的问题有且不止有：
      * 双方交战时，delta 可能仍然大于零，却造成城市数量显示异常减少，如果交战时一方 delta < 0，一方 delta > 0，这又会影响到对交战情况的推断
      * 组队模式下，队友兵力的汇入会导致城市数量显示异常增加。
