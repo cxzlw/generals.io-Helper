@@ -108,7 +108,9 @@ function rewriteGame(): void {
     }
     let isFighting = false;
     for (let j = 1; j < playerInfo.length; ++j) {
-      if (playerInfo[i].children[1].classList.contains("team-name"))
+      // 此处从playerInfo[i]改为playerInfo[j]
+      // 不然不仅会给队伍标记作战情况，还会影响isFighting值，并break
+      if (playerInfo[j].children[1].classList.contains("team-name"))
         continue;
       if (i !== j && getAttacked(playerInfo[i].children) == getAttacked(playerInfo[j].children)) {
         playerInfo[j].children[5].setAttribute("class", "leaderboard-name " + cur);
