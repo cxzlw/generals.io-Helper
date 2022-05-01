@@ -62,7 +62,7 @@ function rewriteGame(): void {
 
   let playerInfo = document.getElementById("game-leaderboard").children[0].children;
   lboardCol = playerInfo[0].childElementCount;
-  for (let i = 1, cur: string, lastPos = -1; i < playerInfo.length; ++i) { 
+  for (let i = 1, cur: string, lastPos = -1; i < playerInfo.length; ++i) {
     if (playerInfo[i].children[lboardCol - 5].classList.contains("team-name")) {
       playerInfo[i].children[lboardCol - 2].textContent = "0";
       playerInfo[i].children[lboardCol - 1].textContent = "0";
@@ -123,6 +123,10 @@ function rewriteGame(): void {
         continue;
 
       curcur = playerInfo[j].children[lboardCol - 5].className.split(' ')[1];
+      if (!isAlive[curcur]) { // 如果j玩家死亡，那么j玩家处显示的作战情况为空
+        playerInfo[j].children[5].setAttribute("class", "");
+        continue; // 跳过j玩家
+      }
       if (i !== j && confusingDiff[cur] == confusingDiff[curcur]) {
         playerInfo[j].children[lboardCol - 1].setAttribute("class", "leaderboard-name " + cur);
         isFighting = true;
