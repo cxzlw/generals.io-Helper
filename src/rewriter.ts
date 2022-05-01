@@ -54,7 +54,7 @@ function rewriteGame(): void {
   let turncounter = document.getElementById("turn-counter").textContent;
   let gameTurn = Number(turncounter.match(/\d+/g)[0]);
   let confusingDiff = [];
-  
+
   if (gameTurn === lastTurn.id) return; // generals 每“回合”可以进行两次移动，却只增加一次兵力，这里保证每回合更新一次信息避免 delta 一直为 0
   lastTurn.id = gameTurn;               // 但这样处理似乎不一定是最优方案？
 
@@ -111,9 +111,11 @@ function rewriteGame(): void {
     }
     let isFighting = false;
     for (let j = 1, curcur: string; j < playerInfo.length; ++j) {
-      if (playerInfo[i].children[1].classList.contains("team-name"))
+      // 此处从playerInfo[i]改为playerInfo[j]
+      // 不然不仅会给队伍标记作战情况，还会影响isFighting值，并break
+      if (playerInfo[j].children[1].classList.contains("team-name"))
         continue;
-      
+
       curcur = playerInfo[j].children[1].className.split(' ')[1];
       if (i !== j && confusingDiff[cur] == confusingDiff[curcur]) {
         playerInfo[j].children[5].setAttribute("class", "leaderboard-name " + cur);
