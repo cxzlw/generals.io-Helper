@@ -115,6 +115,10 @@ function rewriteGame(): void {
         continue;
 
       curcur = playerInfo[j].children[1].className.split(' ')[1];
+      if (!isAlive[curcur]) { // 如果j玩家死亡，那么j玩家处显示的作战情况为空
+        playerInfo[j].children[5].setAttribute("class", "");
+        continue; // 跳过j玩家
+      }
       if (i !== j && confusingDiff[cur] == confusingDiff[curcur]) {
         playerInfo[j].children[5].setAttribute("class", "leaderboard-name " + cur);
         isFighting = true;
