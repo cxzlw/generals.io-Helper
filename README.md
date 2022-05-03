@@ -2,7 +2,9 @@
 
 这是一个浏览器扩展插件，提供一些 generals.io 的辅助功能。
 
-目前采用了 TypeScript 编写后编译成 JavaScript 浏览器扩展的方案，为了避免 commit 记录过于混乱，暂时把 js 目录添加到了 `gitignore` 中，release 包内的为 js 源码。仓库 `src` 目录下为 ts 源码。
+目前采用了 TypeScript 编写后编译成 JavaScript 浏览器扩展的方案，为了避免 commit 记录过于混乱，暂时取消了 js 目录的同步，仓库 `src` 目录下为 ts 源码。
+
+对于开发调试，clone 此仓库后编译 ts 代码，整个仓库目录可作为插件目录直接导入 chromium 浏览器。
 
 ## 功能
 
