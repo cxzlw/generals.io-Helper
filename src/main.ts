@@ -72,7 +72,11 @@ function meow(): void {
     });
   });
 
-  // 初始化计分板
+  /**
+   * 初始化计分板
+   * 第 4 列 / 倒数第 2 列：城市数量
+   * 第 5 列 / 倒数第 1 列：兵力变化量
+   */
   playerInfo[0].appendChild(document.createElement('td'));
   playerInfo[0].children[4].textContent = "City";
   playerInfo[0].appendChild(document.createElement('td'));
@@ -135,7 +139,6 @@ function meow(): void {
       break;
   }
 
-  // 开始游戏
   document.onkeyup = function (event) {
     if (document.activeElement.id == "chatroom-input") return false;
     var e = event || window.event || arguments.callee.caller.arguments[0];
