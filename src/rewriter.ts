@@ -62,21 +62,21 @@ function rewriteGame(): void {
 
   let playerInfo = document.getElementById("game-leaderboard").children[0].children;
   for (let i = 1, cur: string, lastPos = -1; i < playerInfo.length; ++i) { 
-    if (playerInfo[i].children[1].classList.contains("team-name")) {
-      playerInfo[i].children[4].textContent = "0";
-      playerInfo[i].children[5].textContent = "0";
+    if (playerInfo[i].children[leaderboardColumn - 5].classList.contains("team-name")) {
+      playerInfo[i].children[leaderboardColumn - 2].textContent = "0";
+      playerInfo[i].children[leaderboardColumn - 1].textContent = "0";
       lastPos = i; // lastPos 记录当前队伍表示队名的行编号
       continue;
     }
 
-    cur = playerInfo[i].children[1].className.split(' ')[1];
+    cur = playerInfo[i].children[leaderboardColumn - 5].className.split(' ')[1];
     if (!isAlive[cur]) {
-      playerInfo[i].children[4].textContent = "0";
-      playerInfo[i].children[5].textContent = "0";
+      playerInfo[i].children[leaderboardColumn - 2].textContent = "0";
+      playerInfo[i].children[leaderboardColumn - 1].textContent = "0";
       continue;
     }
 
-    let army = Number(playerInfo[i].children[2].textContent);
+    let army = Number(playerInfo[i].children[leaderboardColumn - 4].textContent);
     let delta = army - lastTurn[cur];
 
     /** 
@@ -85,18 +85,18 @@ function rewriteGame(): void {
      * 组队模式下，队友兵力的汇入会导致城市数量显示异常增加。
      * confusingDiff: 理论量和获知量的差异，一定程度缓解推断出错的问题，每 11 回合无视此限制强制更新一次
      */
-    confusingDiff[cur] = delta - Number(playerInfo[i].children[4].textContent);
+    confusingDiff[cur] = delta - Number(playerInfo[i].children[leaderboardColumn - 2].textContent);
     if (gameTurn % 25 !== 0 && delta > 0 && ((confusingDiff[cur] >= -2 && confusingDiff[cur] <= 2) || gameTurn % 11 === 0))
-      playerInfo[i].children[4].textContent = delta.toString();
+      playerInfo[i].children[leaderboardColumn - 2].textContent = delta.toString();
 
-    playerInfo[i].children[5].textContent = delta.toString();
+    playerInfo[i].children[leaderboardColumn - 1].textContent = delta.toString();
     lastTurn[cur] = army;
 
     if (lastPos !== -1) {    // 处理队伍数据
-      playerInfo[lastPos].children[4].textContent =
-        (Number(playerInfo[lastPos].children[4].textContent) + Number(playerInfo[i].children[4].textContent)).toString();
-      playerInfo[lastPos].children[5].textContent =
-        (Number(playerInfo[lastPos].children[5].textContent) + Number(playerInfo[i].children[5].textContent)).toString();
+      playerInfo[lastPos].children[leaderboardColumn - 2].textContent =
+        (Number(playerInfo[lastPos].children[leaderboardColumn - 2].textContent) + Number(playerInfo[i].children[leaderboardColumn - 2].textContent)).toString();
+      playerInfo[lastPos].children[leaderboardColumn - 1].textContent =
+        (Number(playerInfo[lastPos].children[leaderboardColumn - 1].textContent) + Number(playerInfo[i].children[leaderboardColumn - 1].textContent)).toString();
     }
   }
 
@@ -106,29 +106,29 @@ function rewriteGame(): void {
    * 当前方案缺陷在于城市数来自推断，不一定准确
    */
   for (let i = 1, cur: string; i < playerInfo.length; ++i) {
-    if (playerInfo[i].children[1].classList.contains("team-name"))
+    if (playerInfo[i].children[leaderboardColumn - 5].classList.contains("team-name"))
       continue;
 
-    cur = playerInfo[i].children[1].className.split(' ')[1];
+    cur = playerInfo[i].children[leaderboardColumn - 5].className.split(' ')[1];
     if (!isAlive[cur]) continue;
 
     if (confusingDiff[cur] >= 0) { // 兵力正常增长，一般情况下不应当在作战
-      playerInfo[i].children[5].setAttribute("class", "");
+      playerInfo[i].children[leaderboardColumn - 1].setAttribute("class", "");
       continue;
     }
     let isFighting = false;
     for (let j = 1, curcur: string; j < playerInfo.length; ++j) {
-      if (playerInfo[j].children[1].classList.contains("team-name"))
+      if (playerInfo[j].children[leaderboardColumn - 5].classList.contains("team-name"))
         continue;
 
-      curcur = playerInfo[j].children[1].className.split(' ')[1];
+      curcur = playerInfo[j].children[leaderboardColumn - 5].className.split(' ')[1];
       if (i !== j && confusingDiff[cur] == confusingDiff[curcur]) {
-        playerInfo[j].children[5].setAttribute("class", "leaderboard-name " + cur);
+        playerInfo[j].children[leaderboardColumn - 1].setAttribute("class", "leaderboard-name " + cur);
         isFighting = true;
         break;
       }
     }
     if (!isFighting)
-      playerInfo[i].children[5].setAttribute("class", "");
+      playerInfo[i].children[leaderboardColumn - 1].setAttribute("class", "");
   }
 }
