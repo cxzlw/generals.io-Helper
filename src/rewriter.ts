@@ -61,6 +61,7 @@ function rewriteGame(): void {
   lastTurn.id = gameTurn;              
 
   let playerInfo = document.getElementById("game-leaderboard").children[0].children;
+  lboardCol = playerInfo[0].childElementCount;
   for (let i = 1, cur: string, lastPos = -1; i < playerInfo.length; ++i) { 
     if (playerInfo[i].children[lboardCol - 5].classList.contains("team-name")) {
       playerInfo[i].children[lboardCol - 2].textContent = "0";
