@@ -1,6 +1,8 @@
 ## A generals.io Game Helper
 
-这是一个浏览器扩展插件，提供一些 generals.io 的辅助功能。由于一些众所周知的原因，暂时没有把它上传至浏览器扩展商店的计划。
+这是一个浏览器扩展插件，提供一些 generals.io 的辅助功能。
+
+目前采用了 TypeScript 编写后编译成 JavaScript 浏览器扩展的方案，为了避免 commit 记录过于混乱，暂时把 js 目录添加到了 `gitignore` 中，release 包内的为 js 源码。仓库 `src` 目录下为 ts 源码。
 
 ## 功能
 
