@@ -42,8 +42,8 @@ var cities: { x: number, y: number }[] = [];
 var generals: { x: number, y: number, color: string }[] = [];
 var turnObserver: MutationObserver;
 var myColor: string;
+var lboardCol: number;
 var isTeamMode = false;
-var leaderboardColumn = 4;
 
 function startObserve(): void {
   let observeTarget = document.getElementById("react-container");
@@ -86,35 +86,35 @@ function meow(): void {
    * 倒数第 2 列：城市数量
    * 倒数第 1 列：兵力变化量
    */
-  leaderboardColumn = playerInfo[0].childElementCount + 2;
+  lboardCol = playerInfo[0].childElementCount + 2;
   playerInfo[0].appendChild(document.createElement('td'));
-  playerInfo[0].children[leaderboardColumn - 2].textContent = "City";
+  playerInfo[0].children[lboardCol - 2].textContent = "City";
   playerInfo[0].appendChild(document.createElement('td'));
-  playerInfo[0].children[leaderboardColumn - 1].textContent = "Delta";
+  playerInfo[0].children[lboardCol - 1].textContent = "Delta";
 
   for (let i = 1, cur: string, lastPos = -1; i < playerInfo.length; ++i) {
-    if (playerInfo[i].childElementCount === leaderboardColumn - 3) { // is team name
+    if (playerInfo[i].childElementCount === lboardCol - 3) { // is team name
       isTeamMode = true;
-      playerInfo[i].children[leaderboardColumn - 6].removeAttribute("colspan");
-      playerInfo[i].insertBefore(document.createElement('td'), playerInfo[i].firstChild);
-      playerInfo[i].children[leaderboardColumn - 6].textContent = "0";
+      playerInfo[i].children[lboardCol - 6].removeAttribute("colspan");
+      playerInfo[i].insertBefore(document.createElement('td'), playerInfo[i].children[lboardCol - 6]);
+      playerInfo[i].children[lboardCol - 6].textContent = "0";
       playerInfo[i].appendChild(document.createElement('td'));
-      playerInfo[i].children[leaderboardColumn - 2].textContent = "1";
+      playerInfo[i].children[lboardCol - 2].textContent = "1";
       playerInfo[i].appendChild(document.createElement('td'));
-      playerInfo[i].children[leaderboardColumn - 1].textContent = "Loading";
+      playerInfo[i].children[lboardCol - 1].textContent = "Loading";
       lastPos = i; // lastPos 记录当前队伍表示队名的行编号
       continue;
     }
-    cur = playerInfo[i].children[leaderboardColumn - 5].className.split(' ')[1];
+    cur = playerInfo[i].children[lboardCol - 5].className.split(' ')[1];
     playerInfo[i].appendChild(document.createElement('td'));
-    playerInfo[i].children[leaderboardColumn - 2].textContent = "1";
+    playerInfo[i].children[lboardCol - 2].textContent = "1";
     playerInfo[i].appendChild(document.createElement('td'));
-    playerInfo[i].children[leaderboardColumn - 1].textContent = "Loading";
+    playerInfo[i].children[lboardCol - 1].textContent = "Loading";
     lastTurn[cur] = 1, isAlive[cur] = true;
 
     if (lastPos !== -1) {
-      let curStars = Number(playerInfo[i].children[leaderboardColumn - 6].textContent.match(/\d+/g)[0]);
-      playerInfo[lastPos].children[leaderboardColumn - 6].textContent =
+      let curStars = Number(playerInfo[i].children[lboardCol - 6].textContent.match(/\d+/g)[0]);
+      playerInfo[lastPos].children[lboardCol - 6].textContent =
         (Number(playerInfo[lastPos].children[0].textContent) + curStars).toString();
     }
   }
@@ -124,8 +124,8 @@ function meow(): void {
     let colorful = document.createElement("span");
     colorful.setAttribute("style", "color: goldenrod");
     colorful.textContent = "★ ";
-    if (playerInfo[i].children[leaderboardColumn - 5].classList.contains("team-name"))
-      playerInfo[i].children[leaderboardColumn - 6].insertBefore(colorful, playerInfo[i].children[leaderboardColumn - 6].firstChild);
+    if (playerInfo[i].children[lboardCol - 5].classList.contains("team-name"))
+      playerInfo[i].children[lboardCol - 6].insertBefore(colorful, playerInfo[i].children[lboardCol - 6].firstChild);
   }
 
   // 获取自身颜色
