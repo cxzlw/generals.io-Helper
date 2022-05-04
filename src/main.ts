@@ -5,7 +5,7 @@
  * GitHub Repo: https://github.com/AstralLing/generals.io-Helper
  */
 
-const generalsioColors = ["red", "lightblue", "green", "teal", "orange", "pink", "purple", "maroon", "yellow", "brown", "blue", "purple-blue"];
+const generalsioColors = ["red", "lightblue", "green", "teal", "orange", "pink", "purple", "maroon", "yellow", "brown", "blue", "purpleblue"];
 
 // 颜色是否存活
 var isAlive = {
