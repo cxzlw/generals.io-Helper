@@ -1,3 +1,13 @@
+## ⚠ 前排提醒 ⚠
+
+这个扩展并非咱 `cxzlw` 开发，现在似乎已经失效，并且咱暂时没有接手开发的计划，建议使用其它扩展。
+
+其最初作者 `AstralLing` 已从 GitHub 销号，这个仓库才从 fork 转为单独仓库。
+
+AstralLing 销号真的很突然，TA 曾经还做过一个项目 [AstralLing/MMPI2](https://github.com/AstralLing/MMPI2)，源码被 [MMPI-CHN/MMPI-CHN.github.io](https://github.com/MMPI-CHN/MMPI-CHN.github.io) 使用，咱是在看到这个仓库后才意识到 TA 的销号
+
+感谢原作者的贡献，这个仓库会被保留作为 TA 存在的一缕证明。
+
 ## A generals.io Game Helper
 
 这是一个浏览器扩展插件，提供一些 generals.io 的辅助功能。
