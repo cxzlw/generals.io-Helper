@@ -1,0 +1,18 @@
+{
+  "name": "generals.io-helper",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "watch": "tsc -w"
+  },
+  "keywords": [],
+  "author": "Ling✨",
+  "contributors": [
+    "cxzlw <cxz.lwnb@gmail.com> (https://blog.cxzlw.top)"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
