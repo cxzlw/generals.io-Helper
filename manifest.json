@@ -19,7 +19,8 @@
         "./js/main.js",
         "./js/rewriter.js",
         "./js/algorithm.js",
-        "./js/autoplay.js"
+        "./js/autoplay.js",
+        "./js/anti-ac.js"
       ]
     }
   ]

@@ -1,10 +1,5 @@
 {
-  "files": [
-    "./src/main.ts",
-    "./src/rewriter.ts",
-    "./src/algorithm.ts",
-    "./src/autoplay.ts"
-  ],
+  "include": ["./src/**/*.ts"],
   "compilerOptions": {
     "outDir": "./js",
     "target": "es6"
