@@ -1,15 +1,16 @@
+import { generalsioColors } from "./shared";
 /**
  * 模拟鼠标点击
  */
-const simulateMD = new MouseEvent('mousedown', {
+const simulateMD = new MouseEvent("mousedown", {
   view: window,
   bubbles: true,
-  cancelable: true
+  cancelable: true,
 });
-const simulateMU = new MouseEvent('mouseup', {
+const simulateMU = new MouseEvent("mouseup", {
   view: window,
   bubbles: true,
-  cancelable: true
+  cancelable: true,
 });
 function simulateClick(clickPos: Element): void {
   clickPos.dispatchEvent(simulateMD);
@@ -22,7 +23,7 @@ function simulateClick(clickPos: Element): void {
  */
 function getColor(pos: any): string {
   for (let color of generalsioColors)
-    if (pos.classList.contains(color))
-      return color;
+    if (pos.classList.contains(color)) return color;
   return "meow";
 }
+export { getColor, simulateClick };

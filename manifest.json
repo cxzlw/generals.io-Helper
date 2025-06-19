@@ -15,12 +15,7 @@
         "https://159.203.134.216/*",
         "http://159.203.134.216/*"
       ],
-      "js": [
-        "./js/main.js",
-        "./js/rewriter.js",
-        "./js/algorithm.js",
-        "./js/autoplay.js"
-      ]
+      "js": ["./js/main.js", "./js/anti-ac.js"]
     }
   ]
 }

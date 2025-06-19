@@ -1,30 +1,30 @@
 {
-    "name": "generals.io-helper",
-    "version": "0.0.0",
-    "description": "",
-    "type": "module",
-    "scripts": {
-        "watch": "tsc -w"
-    },
-    "keywords": [],
-    "author": "Ling✨",
-    "contributors": [
-        "cxzlw <cxz.lwnb@gmail.com> (https://blog.cxzlw.top)"
-    ],
-    "license": "MIT",
-    "devDependencies": {
-        "esbuild": "0.25.5",
-        "typescript": "^5.8.3"
-    },
-    "dependencies": {
-        "@types/firefox": "^0.0.34",
-        "@types/firefox-webext-browser": "^120.0.4",
-        "@types/webextension-polyfill": "^0.12.3",
-        "eslint": "^9.29.0",
-        "eslint-config-prettier": "^10.1.5",
-        "globals": "^16.2.0",
-        "prettier": "^3.5.3",
-        "typescript-eslint": "^8.34.1",
-        "webextension-polyfill": "^0.12.0"
-    }
+  "name": "generals.io-helper",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "watch": "tsc -w"
+  },
+  "keywords": [],
+  "author": "Ling✨",
+  "contributors": [
+    "cxzlw <cxz.lwnb@gmail.com> (https://blog.cxzlw.top)"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "0.25.5",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@types/firefox": "^0.0.34",
+    "@types/firefox-webext-browser": "^120.0.4",
+    "@types/webextension-polyfill": "^0.12.3",
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.5",
+    "globals": "^16.2.0",
+    "prettier": "^3.5.3",
+    "typescript-eslint": "^8.34.1",
+    "webextension-polyfill": "^0.12.0"
+  }
 }
